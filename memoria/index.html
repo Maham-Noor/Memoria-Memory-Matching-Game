@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memoria - Memory Matching Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="logo">MEM<span>ORIA</span></div>
+    <p class="tagline">flip. match. conquer.</p>
+  </header>
+
+  <!-- ========== CONTROLS BAR ========== -->
+  <div class="controls-bar">
+
+    <!-- Difficulty selector -->
+    <div class="control-group">
+      <label class="ctrl-label">Difficulty</label>
+      <div class="diff-buttons">
+        <button class="diff-btn active" data-size="4">Easy 4×4</button>
+        <button class="diff-btn" data-size="6">Medium 6×6</button>
+        <button class="diff-btn" data-size="8">Hard 8×8</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="control-group stats-group">
+      <div class="stat-box">
+        <span class="stat-label">MOVES</span>
+        <span class="stat-value" id="move-count">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">TIME</span>
+        <span class="stat-value" id="timer">0:00</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">SCORE</span>
+        <span class="stat-value" id="score">0</span>
+      </div>
+    </div>
+
+    <!-- Restart + Mute -->
+    <div class="control-group">
+      <button id="restart-btn">↺ Restart</button>
+      <button id="mute-btn" title="Toggle sound">🔊 Sound</button>
+    </div>
+
+  </div>
+
+  <!-- ========== GAME BOARD ========== -->
+  <main class="board-container">
+    <div id="game-board"></div>
+  </main>
+
+  <!-- ========== WIN MODAL ========== -->
+  <div id="win-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-emoji">🎉</div>
+      <h2 class="modal-title">You Won!</h2>
+      <p class="modal-sub">All pairs matched</p>
+      <div class="modal-stats">
+        <div class="m-stat"><span class="m-stat-label">Moves</span><span id="modal-moves" class="m-stat-val">—</span></div>
+        <div class="m-stat"><span class="m-stat-label">Time</span><span id="modal-time" class="m-stat-val">—</span></div>
+        <div class="m-stat"><span class="m-stat-label">Score</span><span id="modal-score" class="m-stat-val">—</span></div>
+      </div>
+      <button id="modal-play-again">Play Again</button>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
