@@ -1,0 +1,446 @@
+/* =====================================================
+   MEMORIA — Memory Matching Game
+   Style: Bold arcade / retro-future
+   Fonts: Syne (display), DM Mono (stats/UI)
+===================================================== */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --bg:        #0a0a0f;
+  --surface:   #12121a;
+  --border:    #2a2a3d;
+  --accent:    #e8ff47;        /* electric lime */
+  --accent2:   #ff4fd8;        /* hot pink */
+  --accent3:   #47c8ff;        /* cyan */
+  --text:      #f0f0f8;
+  --text-muted:#6b6b8a;
+  --card-back: #1c1c2e;
+  --card-front:#16162a;
+  --match-glow: 0 0 20px var(--accent), 0 0 40px rgba(232,255,71,.3);
+  --radius:    14px;
+  --transition: 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---------- Reset / Base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 60px;
+
+  /* subtle grid texture */
+  background-image:
+    linear-gradient(rgba(232,255,71,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,255,71,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  text-align: center;
+  padding: 48px 0 24px;
+  user-select: none;
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  letter-spacing: -1px;
+  color: var(--text);
+  line-height: 1;
+}
+
+.logo span {
+  color: var(--accent);
+  text-shadow: 0 0 30px rgba(232,255,71,.6);
+}
+
+.tagline {
+  margin-top: 6px;
+  font-size: .75rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---------- Controls Bar ---------- */
+.controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 28px;
+  margin-bottom: 32px;
+}
+
+.control-group { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+
+.ctrl-label {
+  font-size: .65rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Difficulty Buttons */
+.diff-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+
+.diff-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: .75rem;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .05em;
+}
+
+.diff-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.diff-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 500;
+  box-shadow: 0 0 14px rgba(232,255,71,.4);
+}
+
+/* Stats */
+.stats-group { flex-direction: row; gap: 16px; }
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 64px;
+}
+
+.stat-label {
+  font-size: .6rem;
+  letter-spacing: .2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  transition: transform .15s;
+}
+
+.stat-value.bump {
+  animation: bump .2s ease;
+}
+
+@keyframes bump {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+/* Restart Button */
+#restart-btn {
+  font-family: 'Syne', sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  padding: 10px 22px;
+  background: transparent;
+  border: 2px solid var(--accent2);
+  color: var(--accent2);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .05em;
+}
+
+#restart-btn:hover {
+  background: var(--accent2);
+  color: var(--bg);
+  box-shadow: 0 0 18px rgba(255,79,216,.5);
+  transform: translateY(-1px);
+}
+
+#mute-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: .78rem;
+  padding: 8px 16px;
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .04em;
+  margin-top: 6px;
+}
+
+#mute-btn:hover {
+  border-color: var(--accent3);
+  color: var(--accent3);
+}
+
+#mute-btn.muted {
+  border-color: var(--border);
+  color: var(--text-muted);
+  opacity: .5;
+}
+
+/* ---------- Board ---------- */
+.board-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#game-board {
+  display: grid;
+  gap: 12px;
+  width: fit-content;
+}
+
+/* Grid column counts set by JS via inline style */
+
+/* ---------- Card ---------- */
+.card {
+  width: clamp(62px, 11vw, 96px);
+  height: clamp(62px, 11vw, 96px);
+  cursor: pointer;
+  perspective: 800px;
+  user-select: none;
+}
+
+/* The flipper is the element that actually rotates */
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform var(--transition);
+  border-radius: var(--radius);
+}
+
+/* Flipped state */
+.card.flipped .card-inner,
+.card.matched .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Shared face styles */
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  border: 1px solid var(--border);
+}
+
+/* Card Back — shown by default */
+.card-back {
+  background: var(--card-back);
+  /* decorative pattern */
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(232,255,71,.04) 0px,
+    rgba(232,255,71,.04) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+
+.card-back::after {
+  content: '?';
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: var(--border);
+}
+
+/* Card Front — revealed on flip */
+.card-front {
+  background: var(--card-front);
+  transform: rotateY(180deg);
+  border-color: rgba(255,255,255,.1);
+  line-height: 1;
+}
+
+/* Matched state */
+.card.matched .card-face.card-front {
+  border-color: var(--accent);
+  background: rgba(232,255,71,.07);
+  box-shadow: var(--match-glow);
+}
+
+/* Wrong-flash animation */
+.card.wrong .card-face.card-front {
+  animation: wrong-flash .5s ease;
+}
+
+@keyframes wrong-flash {
+  0%, 100% { border-color: rgba(255,255,255,.1); background: var(--card-front); }
+  40%       { border-color: var(--accent2); background: rgba(255,79,216,.15); }
+}
+
+/* Hover */
+.card:not(.flipped):not(.matched):hover .card-inner {
+  transform: rotateY(10deg) scale(1.05);
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+
+/* Card appear animation */
+.card {
+  animation: card-appear .4s ease both;
+}
+
+@keyframes card-appear {
+  from { opacity: 0; transform: scale(.7) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Stagger via nth-child (up to 64 cards) */
+.card:nth-child(1)  { animation-delay: .02s }
+.card:nth-child(2)  { animation-delay: .04s }
+.card:nth-child(3)  { animation-delay: .06s }
+.card:nth-child(4)  { animation-delay: .08s }
+.card:nth-child(5)  { animation-delay: .10s }
+.card:nth-child(6)  { animation-delay: .12s }
+.card:nth-child(7)  { animation-delay: .14s }
+.card:nth-child(8)  { animation-delay: .16s }
+.card:nth-child(9)  { animation-delay: .18s }
+.card:nth-child(10) { animation-delay: .20s }
+.card:nth-child(11) { animation-delay: .22s }
+.card:nth-child(12) { animation-delay: .24s }
+.card:nth-child(13) { animation-delay: .26s }
+.card:nth-child(14) { animation-delay: .28s }
+.card:nth-child(15) { animation-delay: .30s }
+.card:nth-child(16) { animation-delay: .32s }
+.card:nth-child(17) { animation-delay: .34s }
+.card:nth-child(18) { animation-delay: .36s }
+.card:nth-child(19) { animation-delay: .38s }
+.card:nth-child(20) { animation-delay: .40s }
+.card:nth-child(n+21) { animation-delay: .42s }
+
+/* ---------- Win Modal ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 0 60px rgba(232,255,71,.15), 0 24px 80px rgba(0,0,0,.6);
+  animation: modal-in .4s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes modal-in {
+  from { transform: scale(.8) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);     opacity: 1; }
+}
+
+.modal-emoji {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+  animation: spin-in .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes spin-in {
+  from { transform: rotate(-180deg) scale(0); opacity: 0; }
+  to   { transform: rotate(0) scale(1);       opacity: 1; }
+}
+
+.modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(232,255,71,.5);
+  line-height: 1;
+}
+
+.modal-sub {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: .8rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.modal-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 28px 0;
+  padding: 20px;
+  background: rgba(255,255,255,.03);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.m-stat { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.m-stat-label { font-size: .62rem; letter-spacing: .2em; color: var(--text-muted); text-transform: uppercase; }
+.m-stat-val { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--text); }
+
+#modal-play-again {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 14px 40px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .05em;
+}
+
+#modal-play-again:hover {
+  background: #fff;
+  box-shadow: 0 0 20px rgba(232,255,71,.5);
+  transform: translateY(-2px);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 520px) {
+  .controls-bar { padding: 14px 16px; gap: 14px; }
+  .stats-group  { gap: 12px; }
+  #game-board   { gap: 8px; }
+  .card         { width: clamp(52px, 18vw, 80px); height: clamp(52px, 18vw, 80px); }
+}
