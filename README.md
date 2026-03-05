@@ -45,7 +45,7 @@ No installation or build step needed.
 2. Open `index.html` in any modern browser
 
 ```bash
-git clone https://github.com/your-username/memoria.git
+git clone https://github.com/Maham-Noor/Memoria-Memory-Matching-Game.git
 cd memoria
 open index.html
 ```
